@@ -42,6 +42,7 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.roque.epicmedalsapp.R
 import com.roque.domain.model.Medal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,7 +77,7 @@ fun MedalsScreen(
                     .padding(16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(R.drawable.sym_def_app_icon),
+                    painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = "Avatar",
                     modifier = Modifier
                         .size(72.dp)

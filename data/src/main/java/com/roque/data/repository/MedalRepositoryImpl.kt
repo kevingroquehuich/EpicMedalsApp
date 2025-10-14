@@ -7,8 +7,9 @@ import com.roque.domain.repository.MedalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class MedalRepositoryImpl(
+class MedalRepositoryImpl @Inject constructor(
     private val context: Context,
     private val dataStore: MedalDataStore
 ) : MedalRepository {
