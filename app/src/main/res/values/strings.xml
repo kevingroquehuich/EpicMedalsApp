@@ -5,4 +5,6 @@
     <string name="txt_email_user">keving.roque.huich@gmail.com</string>
     <string name="txt_max_level">MÁXIMO NIVEL!</string>
     <string name="txt_profile">Perfil</string>
+    <string name="txt_work_in_progress_title">¡Estamos trabajando en algo increíble!</string>
+    <string name="txt_work_in_progress_detail">Próximamente te daremos más detalles. ¡No te lo pierdas!</string>
 </resources>
