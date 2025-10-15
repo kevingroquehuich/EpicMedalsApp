@@ -26,7 +26,8 @@ class MedalsViewModel @Inject constructor(
 
     private var engineJob: Job? = null
     private var running = false
-    private val updateIntervalMs = 10000L
+
+    private val updateIntervalMs = 1000L
     private val minIncrement = 1
     private val maxIncrement = 20
     private val pointsPerLevel = 100
@@ -47,8 +48,7 @@ class MedalsViewModel @Inject constructor(
 
         engineJob = viewModelScope.launch {
             while (running) {
-                val current = medals.value.toMutableList()
-                if (current.isNotEmpty()) {
+                medals.value.takeIf { it.isNotEmpty() }?.let { current ->
                     val updated = updateMedals(current)
                     saveMedalsUseCase(updated)
                 }
@@ -57,15 +57,14 @@ class MedalsViewModel @Inject constructor(
         }
     }
 
-    private fun updateMedals(medals: MutableList<Medal>): List<Medal> {
-        if (medals.isEmpty()) return medals
+    private fun updateMedals(currentMedals: List<Medal>): List<Medal> {
+        if (currentMedals.isEmpty()) return currentMedals
 
-        val lastIndex = medals.lastIndex
-        val normalMedals = medals.dropLast(1)
+        val lastIndex = currentMedals.lastIndex
+        val normalMedals = currentMedals.dropLast(1)
 
-        // Actualizar progreso de medallas normales
-        for (i in 0 until lastIndex) {
-            val medal = medals[i]
+        // Actualizar medallas normales
+        val updatedNormal = normalMedals.map { medal ->
             if (!medal.isLocked && medal.level < medal.maxLevel) {
                 val inc = Random.nextInt(minIncrement, maxIncrement + 1)
                 var newPoints = medal.points + inc
@@ -78,42 +77,34 @@ class MedalsViewModel @Inject constructor(
                     } else {
                         newLevel = medal.level + 1
                         newPoints = 0
-                        // Emitir medalla que subió de nivel
                         _leveledUpMedal.value = medal.copy(level = newLevel)
                     }
                 }
-
-                medals[i] = medal.copy(level = newLevel, points = newPoints)
-            }
+                medal.copy(level = newLevel, points = newPoints)
+            } else medal
         }
 
-        // Calcular progreso de la última medalla
-        val completedCount = normalMedals.count { it.level >= it.maxLevel }
-        val lastMedal = medals[lastIndex]
+        // Última medalla
+        val lastMedal = currentMedals[lastIndex]
+        val completedCount = updatedNormal.count { it.level >= it.maxLevel }
+        val dynamicMaxLevel = updatedNormal.size
+        val isUnlocked = completedCount > 0 || !lastMedal.isLocked
+        val newLevel = if (isUnlocked) completedCount.coerceAtMost(dynamicMaxLevel) else 0
 
-        val shouldUnlock = completedCount > 0
-        val isNowUnlocked = shouldUnlock || !lastMedal.isLocked
-        val dynamicMaxLevel = normalMedals.size
-
-        val newLevel = if (isNowUnlocked) {
-            completedCount.coerceAtMost(dynamicMaxLevel)
-        } else 0
-
-        val updatedLast = lastMedal.copy(
-            isLocked = !isNowUnlocked,
+        var updatedLast = lastMedal.copy(
+            isLocked = !isUnlocked,
             points = newLevel,
             level = newLevel,
             maxLevel = dynamicMaxLevel
         )
 
-        medals[lastIndex] = updatedLast
-
+        // Emitir level-up solo una vez
         if (updatedLast.level >= updatedLast.maxLevel && !updatedLast.hasLeveledUp && updatedLast.maxLevel > 0) {
             _leveledUpMedal.value = updatedLast.copy(hasLeveledUp = true)
-            medals[lastIndex] = updatedLast.copy(hasLeveledUp = true)
+            updatedLast = updatedLast.copy(hasLeveledUp = true)
         }
 
-        return medals
+        return updatedNormal + updatedLast
     }
 
     fun stopEngine() {
