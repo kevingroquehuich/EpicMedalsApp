@@ -84,9 +84,17 @@ fun MedalCard(medal: Medal) {
                         .padding(start = 4.dp)
                         .align(Alignment.CenterVertically)
                 ) {
-                    Text(medal.name, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = medal.name,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text(medal.description, style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = medal.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
 
                     LabeledLinearProgress(

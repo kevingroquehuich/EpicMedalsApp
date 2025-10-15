@@ -54,7 +54,7 @@ fun LabeledLinearProgress(
         Text(
             text = "$current / $max Pts",
             style = MaterialTheme.typography.labelMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = Color.White,
                 fontWeight = FontWeight.ExtraBold
             ),
             modifier = Modifier.align(Alignment.Center)

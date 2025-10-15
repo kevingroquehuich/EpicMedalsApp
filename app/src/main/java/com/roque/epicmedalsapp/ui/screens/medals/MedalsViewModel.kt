@@ -27,7 +27,7 @@ class MedalsViewModel @Inject constructor(
     private var engineJob: Job? = null
     private var running = false
 
-    private val updateIntervalMs = 1000L
+    private val updateIntervalMs = 10_000L
     private val minIncrement = 1
     private val maxIncrement = 20
     private val pointsPerLevel = 100

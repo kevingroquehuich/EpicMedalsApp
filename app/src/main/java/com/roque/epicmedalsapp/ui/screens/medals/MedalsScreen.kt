@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -146,9 +147,14 @@ fun ProfileSection(medalsViewModel: MedalsViewModel) {
         Text(
             text = stringResource(R.string.txt_name_user),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            color = MaterialTheme.colorScheme.onBackground
         )
-        Text(text = stringResource(R.string.txt_email_user), color = Color.Gray, fontSize = 14.sp)
+        Text(
+            text = stringResource(R.string.txt_email_user),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 14.sp
+        )
     }
 }
 

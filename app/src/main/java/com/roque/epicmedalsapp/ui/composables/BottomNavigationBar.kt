@@ -73,8 +73,8 @@ fun CustomBottomNavigationItem(
     onClick: () -> Unit
 ) {
 
-    val background = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else Color.Transparent
-    val contentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
+    val background = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else Color.Transparent
+    val contentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
     val scale by animateFloatAsState(if (isSelected) 1.2f else 1f)
 
     Box(modifier = Modifier

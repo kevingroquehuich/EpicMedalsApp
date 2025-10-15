@@ -1,6 +1,7 @@
 package com.roque.epicmedalsapp.ui.screens.medals
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +44,7 @@ fun LevelUpPopup(
     medal: Medal,
     composition: LottieComposition? = null,
     progress: Float = 0f,
-    content: @Composable (() -> Unit)? = null, // animación Compose opcional
+    content: @Composable (() -> Unit)? = null,
     onDismiss: () -> Unit
 ) {
 
@@ -94,7 +96,7 @@ fun LevelUpPopup(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
                     Text(
                         text = "¡Has subido\nde nivel!",
@@ -114,23 +116,23 @@ fun LevelUpPopup(
                         textAlign = TextAlign.Center
                     )
 
-                    Button(
+                    OutlinedButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 40.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+                            .padding(top = 60.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
                         onClick = onDismiss,
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                        border = BorderStroke(3.dp, Color.White),
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            "Continuar",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
+                            text = "Continuar",
+                            color = Color.White,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.ExtraBold
                         )
                     }
                 }
 
-                // Si hay Lottie, la dibujamos encima
                 if (composition != null) {
                     LottieAnimation(
                         composition = composition,
