@@ -1,6 +1,5 @@
 package com.roque.epicmedalsapp.ui.navigation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.roque.epicmedalsapp.ui.composables.BottomNavigationBar
+import com.roque.epicmedalsapp.ui.composables.TopBar
 import com.roque.epicmedalsapp.ui.navigation.BottomNavigationDestination.NavItems.navigationItems
 import com.roque.epicmedalsapp.ui.screens.album.AlbumScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsScreen
@@ -33,6 +33,7 @@ fun NavigationWrapper() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = { TopBar(screenTitle = currentScreen.label) },
         bottomBar = {
             BottomNavigationBar(
                 currentScreenId = currentScreen.route,
