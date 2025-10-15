@@ -1,5 +1,8 @@
 package com.roque.epicmedalsapp.ui.screens.medals
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -108,9 +112,16 @@ fun MedalsScreen(
     }
 }
 
-
 @Composable
 fun MedalCard(medal: Medal) {
+    val progress = remember(medal.points, medal.maxLevel) {
+        if (medal.id == "m10") {
+            (medal.points.toFloat() / medal.maxLevel.toFloat()).coerceIn(0f, 1f)
+        } else {
+            (medal.points.toFloat() / 100f).coerceIn(0f, 1f)
+        }
+    }
+
     val bgColor = try {
         Color(medal.backgroundColor.toColorInt())
     } catch (e: Exception) {
@@ -121,6 +132,12 @@ fun MedalCard(medal: Medal) {
     } catch (e: Exception) {
         Color.Blue
     }
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress,
+        animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing),
+        label = "progressAnimation"
+    )
 
 
     Card(
@@ -139,14 +156,22 @@ fun MedalCard(medal: Medal) {
             Text(medal.description, style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(6.dp))
             LinearProgressIndicator(
-                progress = { medal.points / 100f },
-                modifier = Modifier.fillMaxWidth().height(12.dp),
+                progress = { animatedProgress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
+                    .clip(RoundedCornerShape(50)),
                 color = progressColor,
                 trackColor = ProgressIndicatorDefaults.linearTrackColor,
                 strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text("Nivel ${medal.level}/${medal.maxLevel}", style = MaterialTheme.typography.labelSmall)
+            Text(
+                text = if (medal.isLocked) "Bloqueada"
+                else "${medal.level}/${medal.maxLevel}",
+                style = MaterialTheme.typography.labelSmall,
+                color = if (medal.isLocked) Color.Gray else Color.Black
+            )
             Text("Recompensa: ${medal.reward}", style = MaterialTheme.typography.labelSmall)
             Text("Rareza: ${medal.rarity}", style = MaterialTheme.typography.labelSmall)
         }
