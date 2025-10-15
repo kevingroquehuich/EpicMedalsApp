@@ -1,24 +1,72 @@
 package com.roque.epicmedalsapp.ui.navigation
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.roque.epicmedalsapp.ui.composables.BottomNavigationBar
+import com.roque.epicmedalsapp.ui.navigation.BottomNavigationDestination.NavItems.navigationItems
+import com.roque.epicmedalsapp.ui.screens.album.AlbumScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsViewModel
+import com.roque.epicmedalsapp.ui.screens.missions.MissionsScreen
+import com.roque.epicmedalsapp.ui.screens.streaks.StreaksScreen
 
 @Composable
 fun NavigationWrapper() {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Medals) {
+    var currentScreen by remember{
+        mutableStateOf<BottomNavigationDestination>(BottomNavigationDestination.Medals)
+    }
 
-        composable<Medals> {
-            val medalsViewModel: MedalsViewModel = hiltViewModel()
-            MedalsScreen(medalsViewModel = medalsViewModel)
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            BottomNavigationBar(
+                currentScreenId = currentScreen.route,
+                navController = navController,
+                items = navigationItems,
+                onItemSelected = {currentScreen = it}
+            )
+        }
+    ) { innerPadding ->
+
+        NavHost(
+            modifier = Modifier.padding(innerPadding),
+            navController = navController,
+            startDestination = BottomNavigationDestination.Medals.route
+        ) {
+
+            composable(route = BottomNavigationDestination.Medals.route) {
+                val medalsViewModel: MedalsViewModel = hiltViewModel()
+                MedalsScreen(medalsViewModel = medalsViewModel)
+            }
+
+            composable(route = BottomNavigationDestination.Missions.route) {
+                MissionsScreen()
+            }
+
+            composable(route = BottomNavigationDestination.Streaks.route) {
+                StreaksScreen()
+            }
+
+            composable(route = BottomNavigationDestination.Album.route) {
+                AlbumScreen()
+            }
         }
     }
+
+
 }
