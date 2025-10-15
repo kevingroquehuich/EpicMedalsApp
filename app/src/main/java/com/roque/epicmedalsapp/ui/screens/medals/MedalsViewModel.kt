@@ -9,7 +9,9 @@ import com.roque.domain.usecase.SaveMedalsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,17 +22,24 @@ class MedalsViewModel @Inject constructor(
     private val getMedalsUseCase: GetMedalsFlowUseCase,
     private val resetAllMedalsUseCase: ResetAllMedalsUseCase,
     private val saveMedalsUseCase: SaveMedalsUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private var engineJob: Job? = null
     private var running = false
-    private val updateIntervalMs = 500L
+    private val updateIntervalMs = 10000L
     private val minIncrement = 1
-    private val maxIncrement = 5
+    private val maxIncrement = 20
     private val pointsPerLevel = 100
 
     val medals = getMedalsUseCase()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    private val _leveledUpMedal = MutableStateFlow<Medal?>(null)
+    val leveledUpMedal: StateFlow<Medal?> = _leveledUpMedal
+
+    fun clearLeveledUp() {
+        _leveledUpMedal.value = null
+    }
 
     fun startEngine() {
         if (running) return
@@ -54,7 +63,7 @@ class MedalsViewModel @Inject constructor(
         val lastIndex = medals.lastIndex
         val normalMedals = medals.dropLast(1)
 
-        //Actualizar progreso normal
+        // Actualizar progreso de medallas normales
         for (i in 0 until lastIndex) {
             val medal = medals[i]
             if (!medal.isLocked && medal.level < medal.maxLevel) {
@@ -64,13 +73,13 @@ class MedalsViewModel @Inject constructor(
 
                 if (newPoints >= pointsPerLevel) {
                     if (medal.level + 1 >= medal.maxLevel) {
-                        //Mantener lleno si llegó al nivel máximo
                         newLevel = medal.maxLevel
                         newPoints = pointsPerLevel
                     } else {
-                        //Avanzar al siguiente nivel normal
                         newLevel = medal.level + 1
                         newPoints = 0
+                        // Emitir medalla que subió de nivel
+                        _leveledUpMedal.value = medal.copy(level = newLevel)
                     }
                 }
 
@@ -78,15 +87,12 @@ class MedalsViewModel @Inject constructor(
             }
         }
 
-        //Calcular progreso de la última medalla
+        // Calcular progreso de la última medalla
         val completedCount = normalMedals.count { it.level >= it.maxLevel }
         val lastMedal = medals[lastIndex]
 
-        //Desbloquear si al menos una está completa
         val shouldUnlock = completedCount > 0
         val isNowUnlocked = shouldUnlock || !lastMedal.isLocked
-
-        //Calcular dinámicamente el maxProgress real (total de medallas normales)
         val dynamicMaxLevel = normalMedals.size
 
         val newLevel = if (isNowUnlocked) {
@@ -102,9 +108,13 @@ class MedalsViewModel @Inject constructor(
 
         medals[lastIndex] = updatedLast
 
+        if (updatedLast.level >= updatedLast.maxLevel && !updatedLast.hasLeveledUp && updatedLast.maxLevel > 0) {
+            _leveledUpMedal.value = updatedLast.copy(hasLeveledUp = true)
+            medals[lastIndex] = updatedLast.copy(hasLeveledUp = true)
+        }
+
         return medals
     }
-
 
     fun stopEngine() {
         if (!running) return

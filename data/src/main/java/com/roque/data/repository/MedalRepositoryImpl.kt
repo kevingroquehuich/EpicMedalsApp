@@ -30,7 +30,7 @@ class MedalRepositoryImpl @Inject constructor(
             val dataFromAssets = json.decodeFromString<List<Medal>>(defaultJson)
 
             val initialized = dataFromAssets.map { medal ->
-                medal.copy(level = 0, points = 0)
+                medal.copy(level = 1, points = 0)
             }
 
             dataStore.saveMedalsJson(json.encodeToString(initialized))

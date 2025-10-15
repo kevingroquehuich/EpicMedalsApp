@@ -19,5 +19,6 @@ data class Medal(
     val unlockedAt: String,
     val nextLevelGoal: String,
     val isLocked: Boolean,
-    val animationType: String
+    val animationType: String,
+    val hasLeveledUp: Boolean = false
 )

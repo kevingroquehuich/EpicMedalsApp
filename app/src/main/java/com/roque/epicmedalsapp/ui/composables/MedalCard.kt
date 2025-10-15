@@ -68,7 +68,7 @@ fun MedalCard(medal: Medal) {
                         .align(Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MedalIcon(medal = medal, modifier = Modifier.size(48.dp))
+                    MedalIcon(medal = medal, modifier = Modifier.size(56.dp))
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = "Lvl. ${medal.level}",
@@ -85,8 +85,9 @@ fun MedalCard(medal: Medal) {
                         .align(Alignment.CenterVertically)
                 ) {
                     Text(medal.name, fontWeight = FontWeight.Bold)
-                    Text(medal.description, style = MaterialTheme.typography.bodyMedium)
                     Spacer(modifier = Modifier.height(6.dp))
+                    Text(medal.description, style = MaterialTheme.typography.bodyMedium)
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     LabeledLinearProgress(
                         progress = progress,

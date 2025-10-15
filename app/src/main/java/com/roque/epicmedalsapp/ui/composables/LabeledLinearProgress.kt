@@ -37,7 +37,7 @@ fun LabeledLinearProgress(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(24.dp)
+            .height(32.dp)
     ) {
 
         LinearProgressIndicator (
