@@ -1,7 +1,6 @@
 package com.roque.data.repository
 
 import android.content.Context
-import android.util.Log
 import com.roque.data.datastore.MedalDataStore
 import com.roque.domain.model.Medal
 import com.roque.domain.repository.MedalRepository
@@ -23,13 +22,19 @@ class MedalRepositoryImpl @Inject constructor(
 
     override fun medalsFlow(): Flow<List<Medal>> = flow {
         val storedJson = dataStore.medalsFlow().first()
+
         if (storedJson.isNullOrBlank()) {
             val defaultJson = withContext(Dispatchers.IO) {
                 context.assets.open("medals_mock.json").bufferedReader().use { it.readText() }
             }
-            val defaultList = json.decodeFromString<List<Medal>>(defaultJson)
-            dataStore.saveMedalsJson(json.encodeToString(defaultList))
-            emit(defaultList)
+            val dataFromAssets = json.decodeFromString<List<Medal>>(defaultJson)
+
+            val initialized = dataFromAssets.map { medal ->
+                medal.copy(level = 0, points = 0)
+            }
+
+            dataStore.saveMedalsJson(json.encodeToString(initialized))
+            emit(initialized)
         } else {
             emit(json.decodeFromString(storedJson))
         }
