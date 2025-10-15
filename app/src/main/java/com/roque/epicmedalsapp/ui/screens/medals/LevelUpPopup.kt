@@ -27,6 +27,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import androidx.core.graphics.toColorInt
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 import com.roque.domain.model.Medal
+import com.roque.epicmedalsapp.R
 import com.roque.epicmedalsapp.ui.composables.MedalIcon
 
 @Composable
@@ -99,7 +101,7 @@ fun LevelUpPopup(
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Text(
-                        text = "¡Has subido\nde nivel!",
+                        text = stringResource(R.string.txt_you_have_leveled_up),
                         fontSize = 42.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
@@ -125,7 +127,7 @@ fun LevelUpPopup(
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            text = "Continuar",
+                            text = stringResource(R.string.txt_continue),
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.ExtraBold

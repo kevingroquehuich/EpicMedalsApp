@@ -7,4 +7,9 @@
     <string name="txt_profile">Perfil</string>
     <string name="txt_work_in_progress_title">¡Estamos trabajando en algo increíble!</string>
     <string name="txt_work_in_progress_detail">Próximamente te daremos más detalles. ¡No te lo pierdas!</string>
+    <string name="number_10">10</string>
+    <string name="txt_ten_day_streak">¡Racha de 10 días!</string>
+    <string name="txt_streak_description">Juega y consigue puntos cada día para construir tu racha</string>
+    <string name="txt_continue">Continuar</string>
+    <string name="txt_you_have_leveled_up">¡Has subido\nde nivel!</string>
 </resources>

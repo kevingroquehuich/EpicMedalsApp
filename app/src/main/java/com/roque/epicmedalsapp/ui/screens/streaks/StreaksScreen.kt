@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,8 +62,10 @@ fun StreaksScreen() {
             )
 
             Text(
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 40.dp),
-                text = "10",
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 40.dp),
+                text = stringResource(R.string.number_10),
                 color = Color.White,
                 fontSize = 64.sp,
                 fontWeight = FontWeight.ExtraBold
@@ -95,7 +98,7 @@ fun StreaksScreen() {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = "¡Racha de 10 días!",
+            text = stringResource(R.string.txt_ten_day_streak),
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -105,7 +108,7 @@ fun StreaksScreen() {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Juega y consigue puntos cada día para construir tu racha",
+            text = stringResource(R.string.txt_streak_description),
             fontSize = 18.sp,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
