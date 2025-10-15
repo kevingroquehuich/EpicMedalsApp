@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +43,10 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import com.roque.epicmedalsapp.R
 import com.roque.domain.model.Medal
+import kotlinx.coroutines.awaitCancellation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,21 +54,19 @@ fun MedalsScreen(
     medalsViewModel: MedalsViewModel
 ) {
 
-    val medals by medalsViewModel.medals.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val medals by medalsViewModel.medals.collectAsState()
     var tapCount by remember { mutableStateOf(0) }
 
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_RESUME -> medalsViewModel.startEngine()
-                Lifecycle.Event.ON_PAUSE -> medalsViewModel.stopEngine()
-                else -> {}
+    LaunchedEffect(Unit) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            medalsViewModel.startEngine()
+            try {
+                awaitCancellation()
+            } finally {
+                medalsViewModel.stopEngine()
             }
         }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
 
@@ -139,7 +140,7 @@ fun MedalCard(medal: Medal) {
             Spacer(modifier = Modifier.height(6.dp))
             LinearProgressIndicator(
                 progress = { medal.points / 100f },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(12.dp),
                 color = progressColor,
                 trackColor = ProgressIndicatorDefaults.linearTrackColor,
                 strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,

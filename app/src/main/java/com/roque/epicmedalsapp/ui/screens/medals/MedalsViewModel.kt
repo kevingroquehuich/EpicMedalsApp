@@ -1,5 +1,6 @@
 package com.roque.epicmedalsapp.ui.screens.medals
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roque.domain.model.Medal
@@ -7,6 +8,7 @@ import com.roque.domain.usecase.GetMedalsFlowUseCase
 import com.roque.domain.usecase.ResetAllMedalsUseCase
 import com.roque.domain.usecase.SaveMedalsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,36 +25,50 @@ class MedalsViewModel @Inject constructor(
     private val saveMedalsUseCase: SaveMedalsUseCase
 ): ViewModel() {
 
-    val medals: StateFlow<List<Medal>> = getMedalsUseCase()
-        .map { it }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
-
+    private var engineJob: Job? = null
     private var running = false
+    private val updateIntervalMs = 1000L
+    private val minIncrement = 1
+    private val maxIncrement = 10
+    private val pointsPerLevel = 100
 
+    val medals = getMedalsUseCase()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun startEngine() {
         if (running) return
         running = true
-        viewModelScope.launch {
+
+        engineJob = viewModelScope.launch {
             while (running) {
-                val updated = medals.value.map { medal ->
-                    if (medal.level >= medal.maxLevel || medal.isLocked) return@map medal
-                    val inc = Random.nextInt(1, 11)
-                    var newPoints = medal.points + inc
-                    var newLevel = medal.level
-                    if (newPoints >= 100) {
-                        newLevel = (medal.level + 1).coerceAtMost(medal.maxLevel)
-                        newPoints = 0
+                val current = medals.value
+                if (current.isNotEmpty()) {
+                    val updated = current.map { medal ->
+                        if (medal.level >= medal.maxLevel || medal.isLocked) medal
+                        else {
+                            val inc = Random.nextInt(minIncrement, maxIncrement + 1)
+                            var newPoints = medal.points + inc
+                            var newLevel = medal.level
+                            if (newPoints >= pointsPerLevel) {
+                                newLevel = (medal.level + 1).coerceAtMost(medal.maxLevel)
+                                newPoints = 0
+                            }
+                            medal.copy(level = newLevel, points = newPoints)
+                        }
                     }
-                    medal.copy(level = newLevel, points = newPoints)
+                    saveMedalsUseCase(updated)
                 }
-                saveMedalsUseCase(updated)
-                delay(700L)
+                delay(updateIntervalMs)
             }
         }
     }
 
-    fun stopEngine() { running = false }
+    fun stopEngine() {
+        if (!running) return
+        running = false
+        engineJob?.cancel()
+        engineJob = null
+    }
 
     fun resetAll() {
         viewModelScope.launch { resetAllMedalsUseCase() }
