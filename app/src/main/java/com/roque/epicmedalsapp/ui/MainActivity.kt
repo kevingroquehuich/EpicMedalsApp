@@ -31,11 +31,11 @@ class MainActivity : ComponentActivity() {
 
                 // Simulación de carga
                 LaunchedEffect(Unit) {
-                    delay(2000)
+                    delay(5000)
                     isLoading = false
                 }
                 if (isLoading) {
-                    SplashScreen()
+                    SplashScreen{}
                 } else {
                     NavigationWrapper()
                 }
