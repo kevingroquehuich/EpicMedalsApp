@@ -8,17 +8,20 @@ data class Medal(
     val name: String,
     val description: String,
     val icon: String,
-    val category: String,
-    val rarity: String,
-    val backgroundColor: String,
-    val progressColor: String,
-    val level: Int,
-    val points: Int,
-    val maxLevel: Int,
-    val reward: String,
-    val unlockedAt: String,
-    val nextLevelGoal: String,
-    val isLocked: Boolean,
-    val animationType: String,
+    val category: MedalCategory = MedalCategory.PROGRESS,
+    val rarity: MedalRarity = MedalRarity.COMMON,
+    val backgroundColor: String = "#FFFFFF",
+    val progressColor: String = "#2196F3",
+    val level: Int = 1,
+    val points: Int = 0,
+    val maxLevel: Int = 10,
+    val reward: String = "",
+    val unlockedAt: String = "",
+    val nextLevelGoal: String = "",
+    val isLocked: Boolean = false,
+    val animationType: AnimationType = AnimationType.SHINE,
     val hasLeveledUp: Boolean = false
-)
+){
+    val isMaxLevel: Boolean get() = level >= maxLevel
+
+}

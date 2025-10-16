@@ -85,7 +85,7 @@ fun MedalsScreen(
 
             items(items = medals) { medal ->
                 val extraSpacing by animateDpAsState(
-                    targetValue = if (medal.level >= medal.maxLevel) 28.dp else 12.dp,
+                    targetValue = if (medal.isMaxLevel) 28.dp else 12.dp,
                     animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing),
                     label = "extraSpacing"
                 )

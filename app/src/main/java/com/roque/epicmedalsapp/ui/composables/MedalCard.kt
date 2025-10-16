@@ -107,7 +107,7 @@ fun MedalCard(medal: Medal) {
             }
         }
 
-        if (medal.level >= medal.maxLevel) {
+        if (medal.isMaxLevel) {
             Box(
                 modifier = Modifier
                     .align(Alignment.TopCenter)

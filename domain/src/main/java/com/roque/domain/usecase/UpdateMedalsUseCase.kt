@@ -19,7 +19,7 @@ class UpdateMedalsUseCase{
 
         // Medallas normales
         val updatedNormal = normalMedals.map { medal ->
-            if (!medal.isLocked && medal.level < medal.maxLevel) {
+            if (!medal.isLocked && !medal.isMaxLevel) {
                 val inc = Random.nextInt(MIN_INCREMENT, MAX_INCREMENT + 1)
                 var newPoints = medal.points + inc
                 var newLevel = medal.level

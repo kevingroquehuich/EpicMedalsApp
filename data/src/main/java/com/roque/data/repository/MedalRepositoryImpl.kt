@@ -20,7 +20,12 @@ class MedalRepositoryImpl @Inject constructor(
     private val context: Context,
     private val dataStore: MedalDataStore
 ) : MedalRepository {
-    private val json = Json { encodeDefaults = true; ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        isLenient = true
+        coerceInputValues = true
+    }
 
     private val defaultMedals: List<Medal> by lazy {
         val defaultJson =
@@ -29,26 +34,20 @@ class MedalRepositoryImpl @Inject constructor(
     }
 
     override fun medalsFlow(): Flow<List<Medal>> = flow {
-        val storedJson = dataStore.medalsFlow().firstOrNull()
-
-        val initialList = if (storedJson.isNullOrBlank()) {
-            val initialized = defaultMedals.map { medal ->
-                medal.copy(level = 1, points = 0, isLocked = medal.id == "m10")
+        val stored = dataStore.medalsFlow().firstOrNull()
+        val initial = if (stored.isNullOrBlank()) {
+            val initialized = defaultMedals.map {
+                it.copy(level = 1, points = 0, isLocked = it.id == "m10")
             }
             dataStore.saveMedalsJson(json.encodeToString(initialized))
             initialized
         } else {
-            json.decodeFromString(storedJson)
+            json.decodeFromString(stored)
         }
-
-        emit(initialList)
-
-        emitAll( flow = dataStore.medalsFlow()
-                .distinctUntilChanged()
-                .mapNotNull { jsonStr ->
-                    jsonStr?.let { json.decodeFromString<List<Medal>>(it) }
-                }
-        )
+        emit(initial)
+        emitAll(dataStore.medalsFlow().mapNotNull { jsonStr ->
+            jsonStr?.let { json.decodeFromString<List<Medal>>(it) }
+        })
     }.flowOn(Dispatchers.IO)
 
     override suspend fun saveMedals(medals: List<Medal>) {

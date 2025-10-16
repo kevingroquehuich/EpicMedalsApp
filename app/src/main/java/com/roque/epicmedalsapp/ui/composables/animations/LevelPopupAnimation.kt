@@ -9,6 +9,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.roque.domain.model.AnimationType
 import com.roque.domain.model.Medal
 import com.roque.epicmedalsapp.R
 import com.roque.epicmedalsapp.ui.composables.MedalIcon
@@ -20,48 +21,51 @@ fun LevelPopupAnimation(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit
 ) {
-    val composeAnimations: Map<String, @Composable () -> Unit> = mapOf(
-        "pulse" to { PulseAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "scalepop" to { ScalePopAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "flash" to { FlashAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "rotate" to { RotateAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "shine" to { ShineAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "bounce" to { BounceAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "explosion" to { PulseAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "crownburst" to { CrownBurstAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "sparkle" to { PulseAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } },
-        "confetti" to { ConfettiAnimation { MedalIcon(medal = medal, modifier = Modifier.size(250.dp)) } }
+    val composeAnimations: Map<AnimationType, @Composable () -> Unit> = mapOf(
+        AnimationType.PULSE to { PulseAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.SCALE_POP to { ScalePopAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.FLASH to { FlashAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.ROTATE to { RotateAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.SHINE to { ShineAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.BOUNCE to { BounceAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.EXPLOSION to { PulseAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.CROWN_BURST to { CrownBurstAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.SPARKLE to { PulseAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
+        AnimationType.CONFETTI to { ConfettiAnimation { MedalIcon(medal, Modifier.size(250.dp)) } },
     )
 
-    val lottieMap: Map<String, Int> = mapOf(
-        "sparkle" to R.raw.sparkle,
-        "confetti" to R.raw.confetti,
-        "pulse" to R.raw.sparkle2,
-        "scalepop" to R.raw.shine,
-        "flash" to R.raw.shine,
-        "rotate" to R.raw.sparkle,
-        "shine" to R.raw.shine,
-        "bounce" to R.raw.shine,
-        "explosion" to R.raw.flamefire,
-        "crownburst" to R.raw.shine
+    val lottieMap: Map<AnimationType, Int> = mapOf(
+        AnimationType.SPARKLE to R.raw.sparkle,
+        AnimationType.CONFETTI to R.raw.confetti,
+        AnimationType.PULSE to R.raw.sparkle2,
+        AnimationType.SCALE_POP to R.raw.shine,
+        AnimationType.FLASH to R.raw.shine,
+        AnimationType.ROTATE to R.raw.sparkle,
+        AnimationType.SHINE to R.raw.shine,
+        AnimationType.BOUNCE to R.raw.shine,
+        AnimationType.EXPLOSION to R.raw.flamefire,
+        AnimationType.CROWN_BURST to R.raw.shine
     )
 
-    val animType = medal.animationType.lowercase()
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(lottieMap[animType] ?: R.raw.sparkle))
+    val animationType = medal.animationType
 
-    val iterations = if (animType == "explosion") 1 else LottieConstants.IterateForever
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(lottieMap[animationType] ?: R.raw.sparkle)
+    )
+
+    val iterations = if (animationType == AnimationType.EXPLOSION) 1 else LottieConstants.IterateForever
 
     val progress by animateLottieCompositionAsState(
         composition = composition,
         iterations = iterations
     )
 
-    // LevelUpPopup final
     LevelUpPopup(
         medal = medal,
         composition = composition,
         progress = progress,
-        content = composeAnimations[animType] ?: { MedalIcon(medal = medal, modifier = modifier) },
+        content = composeAnimations[animationType] ?: { MedalIcon(medal = medal, modifier = modifier) },
         onDismiss = onDismiss
     )
 }
+
