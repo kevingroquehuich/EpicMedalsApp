@@ -25,4 +25,7 @@
     <string name="txt_progress_towards_goals">Progreso hacia Objetivos</string>
     <string name="txt_weekly_goal_seven_days">Objetivo Semanal (7 días)</string>
     <string name="txt_main_objective_days">Objetivo Principal (%1$d días)</string>
+    <string name="txt_active_missions">Misiones Activas</string>
+    <string name="txt_progress">Progreso</string>
+    <string name="txt_reward">Recompensa</string>
 </resources>

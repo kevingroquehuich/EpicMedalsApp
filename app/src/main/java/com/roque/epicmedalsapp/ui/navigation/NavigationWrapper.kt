@@ -20,6 +20,7 @@ import com.roque.epicmedalsapp.ui.screens.album.AlbumScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsViewModel
 import com.roque.epicmedalsapp.ui.screens.missions.MissionsScreen
+import com.roque.epicmedalsapp.ui.screens.missions.MissionsViewModel
 import com.roque.epicmedalsapp.ui.screens.streaks.StreaksScreen
 import com.roque.epicmedalsapp.ui.screens.streaks.StreaksViewModel
 
@@ -57,7 +58,8 @@ fun NavigationWrapper() {
             }
 
             composable(route = BottomNavigationDestination.Missions.route) {
-                MissionsScreen()
+                val missionsViewModel: MissionsViewModel = hiltViewModel()
+                MissionsScreen(missionsViewModel)
             }
 
             composable(route = BottomNavigationDestination.Streaks.route) {

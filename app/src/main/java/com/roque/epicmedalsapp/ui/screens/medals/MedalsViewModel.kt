@@ -6,10 +6,10 @@ import com.roque.domain.config.GameConfig.POINTS_PER_LEVEL
 import com.roque.domain.config.GameConfig.UPDATE_INTERVAL_MS
 import com.roque.domain.model.Medal
 import com.roque.domain.common.UIState
-import com.roque.domain.usecase.GetMedalsFlowUseCase
-import com.roque.domain.usecase.ResetAllMedalsUseCase
-import com.roque.domain.usecase.SaveMedalsUseCase
-import com.roque.domain.usecase.UpdateMedalsUseCase
+import com.roque.domain.usecase.medal.GetMedalsFlowUseCase
+import com.roque.domain.usecase.medal.ResetAllMedalsUseCase
+import com.roque.domain.usecase.medal.SaveMedalsUseCase
+import com.roque.domain.usecase.medal.UpdateMedalsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

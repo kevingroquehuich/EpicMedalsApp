@@ -1,4 +1,4 @@
-package com.roque.domain.usecase
+package com.roque.domain.usecase.streak
 
 import com.roque.domain.model.Streak
 import com.roque.domain.repository.StreakRepository

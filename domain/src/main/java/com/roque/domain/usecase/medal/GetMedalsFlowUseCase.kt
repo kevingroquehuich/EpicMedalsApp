@@ -1,4 +1,4 @@
-package com.roque.domain.usecase
+package com.roque.domain.usecase.medal
 
 import com.roque.domain.model.Medal
 import com.roque.domain.repository.MedalRepository

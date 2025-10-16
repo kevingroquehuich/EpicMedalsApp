@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.core
+package com.roque.epicmedalsapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "daily_streak",
+    "title": "Racha Diaria",
+    "description": "Mantén una racha de actividad por 7 días consecutivos",
+    "progress": 0.71,
+    "maxProgress": 7,
+    "currentProgress": 5,
+    "reward": "50 XP + Medalla de Constancia",
+    "iconName": "LocalFireDepartment",
+    "backgroundColorHex": "#FF6B6B",
+    "isCompleted": false,
+    "difficulty": "Fácil"
+  },
+  {
+    "id": "workout_master",
+    "title": "Maestro del Ejercicio",
+    "description": "Completa 15 sesiones de ejercicio esta semana",
+    "progress": 0.53,
+    "maxProgress": 15,
+    "currentProgress": 8,
+    "reward": "100 XP + Medalla de Fuerza",
+    "iconName": "FitnessCenter",
+    "backgroundColorHex": "#4ECDC4",
+    "isCompleted": false,
+    "difficulty": "Medio"
+  },
+  {
+    "id": "early_bird",
+    "title": "Madrugador",
+    "description": "Realiza actividades antes de las 8:00 AM por 5 días",
+    "progress": 0.8,
+    "maxProgress": 5,
+    "currentProgress": 4,
+    "reward": "75 XP + Medalla de Disciplina",
+    "iconName": "Schedule",
+    "backgroundColorHex": "#FFE66D",
+    "isCompleted": false,
+    "difficulty": "Medio"
+  },
+  {
+    "id": "progress_champion",
+    "title": "Campeón del Progreso",
+    "description": "Mejora tu mejor racha personal",
+    "progress": 1.0,
+    "maxProgress": 1,
+    "currentProgress": 1,
+    "reward": "200 XP + Medalla Épica",
+    "iconName": "TrendingUp",
+    "backgroundColorHex": "#95E1D3",
+    "isCompleted": true,
+    "difficulty": "Difícil"
+  },
+  {
+    "id": "consistency_king",
+    "title": "Rey de la Consistencia",
+    "description": "Completa tus objetivos diarios 20 veces",
+    "progress": 0.35,
+    "maxProgress": 20,
+    "currentProgress": 7,
+    "reward": "150 XP + Medalla Legendaria",
+    "iconName": "EmojiEvents",
+    "backgroundColorHex": "#FCE38A",
+    "isCompleted": false,
+    "difficulty": "Difícil"
+  }
+]

@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roque.domain.common.UIState
 import com.roque.domain.model.Streak
-import com.roque.domain.usecase.GetStreakFlowUseCase
-import com.roque.domain.usecase.RecordDailyActivityUseCase
-import com.roque.domain.usecase.UpdateStreakMedalsUseCase
+import com.roque.domain.usecase.streak.GetStreakFlowUseCase
+import com.roque.domain.usecase.streak.RecordDailyActivityUseCase
+import com.roque.domain.usecase.streak.UpdateStreakMedalsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

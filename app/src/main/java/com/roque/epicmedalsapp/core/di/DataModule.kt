@@ -4,6 +4,7 @@ import android.content.Context
 import com.roque.data.datastore.MedalDataStore
 import com.roque.data.datastore.StreakDataStore
 import com.roque.data.repository.MedalRepositoryImpl
+import com.roque.data.repository.MissionsRepositoryImpl
 import com.roque.data.repository.StreakRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -38,4 +39,10 @@ object DataModule {
     fun provideStreakRepositoryImpl(
         dataStore: StreakDataStore
     ): StreakRepositoryImpl = StreakRepositoryImpl( dataStore)
+
+    @Provides
+    @Singleton
+    fun provideMissionsRepositoryImpl(
+        @ApplicationContext context: Context
+    ): MissionsRepositoryImpl = MissionsRepositoryImpl(context)
 }
