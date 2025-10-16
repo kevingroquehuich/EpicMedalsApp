@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,12 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.roque.epicmedalsapp.R
+import com.roque.epicmedalsapp.ui.animations.LifecycleAwareLottieView
 
 @Composable
 fun AlbumScreen() {
@@ -35,17 +30,10 @@ fun AlbumScreen() {
         verticalArrangement = Arrangement.Center
     ) {
 
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes( R.raw.loading))
-
-        val progress by animateLottieCompositionAsState(
-            composition = composition,
-            iterations = LottieConstants.IterateForever
-        )
-
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            modifier = Modifier.size(200.dp)
+        LifecycleAwareLottieView(
+            resId = R.raw.loading,
+            modifier = Modifier.size(200.dp),
+            alignment = Alignment.Center
         )
 
         Spacer(modifier = Modifier.height(32.dp))

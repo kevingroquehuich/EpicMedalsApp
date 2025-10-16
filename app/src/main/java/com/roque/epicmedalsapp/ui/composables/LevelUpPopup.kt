@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.ui.screens.medals
+package com.roque.epicmedalsapp.ui.composables
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
@@ -14,9 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,7 +36,6 @@ import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 import com.roque.domain.model.Medal
 import com.roque.epicmedalsapp.R
-import com.roque.epicmedalsapp.ui.composables.MedalIcon
 
 @Composable
 fun LevelUpPopup(

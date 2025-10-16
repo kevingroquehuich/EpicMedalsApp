@@ -8,6 +8,7 @@ import com.roque.epicmedalsapp.domain.usecase.UpdateMedalsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -16,7 +17,6 @@ import javax.inject.Singleton
 object UseCaseModule {
 
     @Provides
-    @Singleton
     fun provideGetMedalsFlowUseCase(repository: MedalRepository) =
         GetMedalsFlowUseCase(repository)
 

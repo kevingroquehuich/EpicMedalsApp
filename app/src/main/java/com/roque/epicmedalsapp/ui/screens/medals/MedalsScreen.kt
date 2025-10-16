@@ -44,7 +44,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
 import com.roque.epicmedalsapp.R
 import com.roque.epicmedalsapp.ui.composables.MedalCard
-import com.roque.epicmedalsapp.ui.composables.animations.LevelPopupAnimation
+import com.roque.epicmedalsapp.ui.animations.LevelPopupAnimation
 import kotlinx.coroutines.awaitCancellation
 
 @OptIn(ExperimentalMaterial3Api::class)

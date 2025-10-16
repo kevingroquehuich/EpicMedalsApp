@@ -1,19 +1,15 @@
-package com.roque.epicmedalsapp.ui.composables.animations
+package com.roque.epicmedalsapp.ui.animations
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.roque.domain.model.AnimationType
 import com.roque.domain.model.Medal
 import com.roque.epicmedalsapp.R
 import com.roque.epicmedalsapp.ui.composables.MedalIcon
-import com.roque.epicmedalsapp.ui.screens.medals.LevelUpPopup
+import com.roque.epicmedalsapp.ui.composables.LevelUpPopup
 
 @Composable
 fun LevelPopupAnimation(
@@ -48,15 +44,10 @@ fun LevelPopupAnimation(
     )
 
     val animationType = medal.animationType
-
-    val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(lottieMap[animationType] ?: R.raw.sparkle)
-    )
-
     val iterations = if (animationType == AnimationType.EXPLOSION) 1 else LottieConstants.IterateForever
 
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
+    val (composition, progress) = lifecycleAwareLottieAnimation(
+        resId = lottieMap[animationType] ?: R.raw.sparkle,
         iterations = iterations
     )
 

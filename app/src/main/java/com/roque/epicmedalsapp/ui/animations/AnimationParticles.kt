@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.ui.composables.animations
+package com.roque.epicmedalsapp.ui.animations
 
 import androidx.compose.ui.graphics.Color
 
