@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.di
+package com.roque.epicmedalsapp.core.di
 
 import android.app.Application
 import android.content.Context

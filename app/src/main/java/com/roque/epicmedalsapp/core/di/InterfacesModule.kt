@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.di
+package com.roque.epicmedalsapp.core.di
 
 import com.roque.data.repository.MedalRepositoryImpl
 import com.roque.domain.repository.MedalRepository
