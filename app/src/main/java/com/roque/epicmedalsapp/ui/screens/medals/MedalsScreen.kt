@@ -42,9 +42,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.compose.AsyncImage
+import com.roque.domain.common.UIState
 import com.roque.epicmedalsapp.R
 import com.roque.epicmedalsapp.ui.composables.MedalCard
 import com.roque.epicmedalsapp.ui.animations.LevelPopupAnimation
+import com.roque.epicmedalsapp.ui.composables.ErrorScreen
+import com.roque.epicmedalsapp.ui.composables.LoadingScreen
 import kotlinx.coroutines.awaitCancellation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,12 +55,11 @@ import kotlinx.coroutines.awaitCancellation
 fun MedalsScreen(
     medalsViewModel: MedalsViewModel
 ) {
-
     val lifecycleOwner = LocalLifecycleOwner.current
-    val medals by medalsViewModel.medals.collectAsState()
+    val medalsState by medalsViewModel.medalsState.collectAsState()
     val leveledUpMedal by medalsViewModel.leveledUpMedal.collectAsState()
 
-
+    // Mantiene el engine activo mientras el ciclo de vida está en STARTED
     LaunchedEffect(Unit) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             medalsViewModel.startEngine()
@@ -70,41 +72,55 @@ fun MedalsScreen(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        when (val state = medalsState) {
+            is UIState.Loading -> LoadingScreen()
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
-                ProfileSection(medalsViewModel)
-                Spacer(modifier = Modifier.height(32.dp))
-            }
+            is UIState.Error -> ErrorScreen(
+                message = state.message,
+                onRetry = { medalsViewModel.startEngine() }
+            )
 
-            items(items = medals) { medal ->
-                val extraSpacing by animateDpAsState(
-                    targetValue = if (medal.isMaxLevel) 28.dp else 12.dp,
-                    animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing),
-                    label = "extraSpacing"
-                )
-
-                Column(
+            is UIState.Success -> {
+                LazyColumn(
                     modifier = Modifier
-                        .padding(top = extraSpacing / 1.5f, bottom = extraSpacing / 2)
-                        .fillMaxWidth(),
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MedalCard(medal)
-                }
-            }
+                    item {
+                        Spacer(modifier = Modifier.height(24.dp))
+                        ProfileSection(medalsViewModel)
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
 
-            item {
-                Spacer(modifier = Modifier.height(32.dp))
+                    items(items = state.data) { medal ->
+                        val extraSpacing by animateDpAsState(
+                            targetValue = if (medal.isMaxLevel) 28.dp else 12.dp,
+                            animationSpec = tween(
+                                durationMillis = 400,
+                                easing = FastOutSlowInEasing
+                            ),
+                            label = "extraSpacing"
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .padding(top = extraSpacing / 1.5f, bottom = extraSpacing / 2)
+                                .fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            MedalCard(medal)
+                        }
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(32.dp))
+                    }
+                }
             }
         }
 
+        //Popup de nivel desbloqueado
         AnimatedVisibility(
             visible = leveledUpMedal != null,
             enter = fadeIn() + scaleIn(initialScale = 0.8f),
@@ -118,7 +134,6 @@ fun MedalsScreen(
             }
         }
     }
-
 }
 
 @Composable
@@ -133,7 +148,7 @@ fun ProfileSection(medalsViewModel: MedalsViewModel) {
                 .size(150.dp)
                 .clip(CircleShape)
                 .clickable {
-                    tapCount += 1
+                    tapCount++
                     if (tapCount >= 5) {
                         medalsViewModel.resetAll()
                         tapCount = 0
@@ -151,7 +166,7 @@ fun ProfileSection(medalsViewModel: MedalsViewModel) {
         )
         Text(
             text = stringResource(R.string.txt_email_user),
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
             fontSize = 14.sp
         )
     }

@@ -1,4 +1,4 @@
-package com.roque.epicmedalsapp.domain.usecase
+package com.roque.domain.usecase
 
 import com.roque.domain.config.GameConfig.MAX_INCREMENT
 import com.roque.domain.config.GameConfig.MIN_INCREMENT
