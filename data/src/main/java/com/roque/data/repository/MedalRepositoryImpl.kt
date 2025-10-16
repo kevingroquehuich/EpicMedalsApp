@@ -30,7 +30,7 @@ class MedalRepositoryImpl @Inject constructor(
             val dataFromAssets = json.decodeFromString<List<Medal>>(defaultJson)
 
             val initialized = dataFromAssets.map { medal ->
-                medal.copy(level = 1, points = 0)
+                medal.copy(level = 1, points = 0, isLocked = medal.id == "m10")
             }
 
             dataStore.saveMedalsJson(json.encodeToString(initialized))
@@ -55,7 +55,7 @@ class MedalRepositoryImpl @Inject constructor(
             context.assets.open("medals_mock.json").bufferedReader().use { it.readText() }
         }
         val resetList = json.decodeFromString<List<Medal>>(defaultJson).map {
-            it.copy(level = 1, points = 0)
+            it.copy(level = 1, points = 0, isLocked = it.id == "m10")
         }
         saveMedals(resetList)
     }

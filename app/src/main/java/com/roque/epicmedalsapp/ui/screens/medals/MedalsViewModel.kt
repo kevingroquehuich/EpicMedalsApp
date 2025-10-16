@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -26,6 +27,8 @@ class MedalsViewModel @Inject constructor(
 
     private var engineJob: Job? = null
     private var running = false
+    private val isResetting = AtomicBoolean(false)
+
 
     private val updateIntervalMs = 10_000L
     private val minIncrement = 1
@@ -48,11 +51,32 @@ class MedalsViewModel @Inject constructor(
 
         engineJob = viewModelScope.launch {
             while (running) {
-                medals.value.takeIf { it.isNotEmpty() }?.let { current ->
-                    val updated = updateMedals(current)
+
+                if (isResetting.get()) {
+                    delay(300)
+                    continue
+                }
+
+                val current = medals.value
+                if (current.isEmpty()) {
+                    delay(updateIntervalMs)
+                    continue
+                }
+
+                val allComplete = current.all { it.level >= it.maxLevel && it.points >= pointsPerLevel }
+                if (allComplete) {
+                    stopEngine()
+                    break
+                }
+
+                //Solo guarda si cambió algo
+                val updated = updateMedals(current)
+                if (updated != current) {
                     saveMedalsUseCase(updated)
                 }
+
                 delay(updateIntervalMs)
+
             }
         }
     }
@@ -63,7 +87,7 @@ class MedalsViewModel @Inject constructor(
         val lastIndex = currentMedals.lastIndex
         val normalMedals = currentMedals.dropLast(1)
 
-        // Actualizar medallas normales
+        //Actualizar medallas normales
         val updatedNormal = normalMedals.map { medal ->
             if (!medal.isLocked && medal.level < medal.maxLevel) {
                 val inc = Random.nextInt(minIncrement, maxIncrement + 1)
@@ -84,21 +108,24 @@ class MedalsViewModel @Inject constructor(
             } else medal
         }
 
-        // Última medalla
+        //Última medalla
         val lastMedal = currentMedals[lastIndex]
         val completedCount = updatedNormal.count { it.level >= it.maxLevel }
         val dynamicMaxLevel = updatedNormal.size
         val isUnlocked = completedCount > 0 || !lastMedal.isLocked
-        val newLevel = if (isUnlocked) completedCount.coerceAtMost(dynamicMaxLevel) else 0
+        val newLevel = if (isUnlocked) {
+            completedCount.coerceAtMost(dynamicMaxLevel)
+        } else {
+            lastMedal.level
+        }
 
         var updatedLast = lastMedal.copy(
             isLocked = !isUnlocked,
-            points = newLevel,
+            points = if (isUnlocked) newLevel else 0,
             level = newLevel,
             maxLevel = dynamicMaxLevel
         )
 
-        // Emitir level-up solo una vez
         if (updatedLast.level >= updatedLast.maxLevel && !updatedLast.hasLeveledUp && updatedLast.maxLevel > 0) {
             _leveledUpMedal.value = updatedLast.copy(hasLeveledUp = true)
             updatedLast = updatedLast.copy(hasLeveledUp = true)
@@ -115,6 +142,15 @@ class MedalsViewModel @Inject constructor(
     }
 
     fun resetAll() {
-        viewModelScope.launch { resetAllMedalsUseCase() }
+        viewModelScope.launch {
+            isResetting.set(true)
+            stopEngine()
+
+            resetAllMedalsUseCase()
+            delay(150)
+
+            isResetting.set(false)
+            startEngine()
+        }
     }
 }
