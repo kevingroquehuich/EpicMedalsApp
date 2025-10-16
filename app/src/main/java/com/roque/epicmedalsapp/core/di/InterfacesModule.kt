@@ -1,7 +1,9 @@
 package com.roque.epicmedalsapp.core.di
 
 import com.roque.data.repository.MedalRepositoryImpl
+import com.roque.data.repository.StreakRepositoryImpl
 import com.roque.domain.repository.MedalRepository
+import com.roque.domain.repository.StreakRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ abstract class InterfacesModule {
     @Singleton
     @Binds
     abstract fun bindMedalRepository(medalRepositoryImpl: MedalRepositoryImpl): MedalRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindStreakRepository(streakRepositoryImpl: StreakRepositoryImpl): StreakRepository
 }

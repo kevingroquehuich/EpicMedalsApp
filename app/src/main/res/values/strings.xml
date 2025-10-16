@@ -12,4 +12,17 @@
     <string name="txt_streak_description">Juega y consigue puntos cada día para construir tu racha</string>
     <string name="txt_continue">Continuar</string>
     <string name="txt_you_have_leveled_up">¡Has subido\nde nivel!</string>
+    <string name="txt_day">día</string>
+    <string name="txt_days">días</string>
+    <string name="txt_retry">Reintentar</string>
+    <string name="txt_progress_of_the_week">Progreso de la Semana</string>
+    <string name="txt_completed">Completado</string>
+    <string name="txt_current_streak">Racha Actual</string>
+    <string name="txt_best_streak">Mejor Racha</string>
+    <string name="txt_total_days">Días Totales</string>
+    <string name="txt_registering">Registrando...</string>
+    <string name="txt_record_activity_of_the_day">Registrar Actividad del Día</string>
+    <string name="txt_progress_towards_goals">Progreso hacia Objetivos</string>
+    <string name="txt_weekly_goal_seven_days">Objetivo Semanal (7 días)</string>
+    <string name="txt_main_objective_days">Objetivo Principal (%1$d días)</string>
 </resources>

@@ -1,9 +1,10 @@
 package com.roque.epicmedalsapp.core.di
 
-import android.app.Application
 import android.content.Context
 import com.roque.data.datastore.MedalDataStore
+import com.roque.data.datastore.StreakDataStore
 import com.roque.data.repository.MedalRepositoryImpl
+import com.roque.data.repository.StreakRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +23,19 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun provideStreakDataStore(@ApplicationContext context: Context) = StreakDataStore(context)
+
+
+    @Provides
+    @Singleton
     fun provideMedalRepositoryImpl(
         @ApplicationContext context: Context,
         dataStore: MedalDataStore
     ): MedalRepositoryImpl = MedalRepositoryImpl(context, dataStore)
+
+    @Provides
+    @Singleton
+    fun provideStreakRepositoryImpl(
+        dataStore: StreakDataStore
+    ): StreakRepositoryImpl = StreakRepositoryImpl( dataStore)
 }
