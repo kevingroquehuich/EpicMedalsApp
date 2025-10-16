@@ -28,4 +28,6 @@
     <string name="txt_active_missions">Misiones Activas</string>
     <string name="txt_progress">Progreso</string>
     <string name="txt_reward">Recompensa</string>
+    <string name="txt_congratulations">🎉 ¡FELICIDADES! 🎉</string>
+    <string name="txt_you_have_reached_the_level">¡Has alcanzado el nivel %1$d!</string>
 </resources>
