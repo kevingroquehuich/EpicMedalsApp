@@ -23,13 +23,18 @@ class MedalDataStore @Inject constructor(private val context: Context) {
             .map { prefs -> prefs[KEY_MEDALS] }
             .distinctUntilChanged()
 
-    suspend fun saveMedalsJson(jsonStr: String) {
-        if (jsonStr == lastSavedJson) return
+    suspend fun saveMedalsJson(jsonStr: String): Result<Unit> {
+        return try {
+            if (jsonStr == lastSavedJson) return Result.success(Unit)
 
-        context.dataStore.edit { prefs ->
-            prefs[KEY_MEDALS] = jsonStr
+            context.dataStore.edit { prefs ->
+                prefs[KEY_MEDALS] = jsonStr
+            }
+            lastSavedJson = jsonStr
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-
-        lastSavedJson = jsonStr
     }
+
 }
