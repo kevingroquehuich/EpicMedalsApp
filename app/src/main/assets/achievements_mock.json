@@ -1,0 +1,82 @@
+[
+  {
+    "id": "first_steps",
+    "name": "Primeros Pasos",
+    "description": "Completa tu primera actividad",
+    "iconName": "Star",
+    "rarity": "COMMON",
+    "isUnlocked": true,
+    "unlockedDate": "15 Oct 2024",
+    "category": "Inicio"
+  },
+  {
+    "id": "fire_starter",
+    "name": "Iniciador de Fuego",
+    "description": "Mantén una racha de 3 días",
+    "iconName": "LocalFireDepartment",
+    "rarity": "COMMON",
+    "isUnlocked": true,
+    "unlockedDate": "16 Oct 2024",
+    "category": "Rachas"
+  },
+  {
+    "id": "early_riser",
+    "name": "Madrugador",
+    "description": "Completa 5 actividades antes de las 8 AM",
+    "iconName": "Schedule",
+    "rarity": "RARE",
+    "isUnlocked": true,
+    "unlockedDate": "18 Oct 2024",
+    "category": "Tiempo"
+  },
+  {
+    "id": "strength_master",
+    "name": "Maestro de Fuerza",
+    "description": "Completa 50 ejercicios de fuerza",
+    "iconName": "FitnessCenter",
+    "rarity": "RARE",
+    "isUnlocked": false,
+    "unlockedDate": "",
+    "category": "Ejercicio"
+  },
+  {
+    "id": "streak_legend",
+    "name": "Leyenda de Rachas",
+    "description": "Mantén una racha de 30 días",
+    "iconName": "Whatshot",
+    "rarity": "EPIC",
+    "isUnlocked": false,
+    "unlockedDate": "",
+    "category": "Rachas"
+  },
+  {
+    "id": "progress_god",
+    "name": "Dios del Progreso",
+    "description": "Alcanza el nivel máximo en todas las medallas",
+    "iconName": "TrendingUp",
+    "rarity": "EPIC",
+    "isUnlocked": false,
+    "unlockedDate": "",
+    "category": "Progreso"
+  },
+  {
+    "id": "champion_of_champions",
+    "name": "Campeón de Campeones",
+    "description": "Desbloquea todas las medallas del álbum",
+    "iconName": "EmojiEvents",
+    "rarity": "LEGENDARY",
+    "isUnlocked": false,
+    "unlockedDate": "",
+    "category": "Logros"
+  },
+  {
+    "id": "verified_legend",
+    "name": "Leyenda Verificada",
+    "description": "Mantén una racha perfecta por 100 días",
+    "iconName": "Verified",
+    "rarity": "LEGENDARY",
+    "isUnlocked": false,
+    "unlockedDate": "",
+    "category": "Rachas"
+  }
+]

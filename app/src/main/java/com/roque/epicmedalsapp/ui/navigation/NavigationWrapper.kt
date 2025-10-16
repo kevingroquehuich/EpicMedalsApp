@@ -17,6 +17,7 @@ import com.roque.epicmedalsapp.ui.composables.BottomNavigationBar
 import com.roque.epicmedalsapp.ui.composables.TopBar
 import com.roque.epicmedalsapp.ui.navigation.BottomNavigationDestination.NavItems.navigationItems
 import com.roque.epicmedalsapp.ui.screens.album.AlbumScreen
+import com.roque.epicmedalsapp.ui.screens.album.AlbumViewModel
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsScreen
 import com.roque.epicmedalsapp.ui.screens.medals.MedalsViewModel
 import com.roque.epicmedalsapp.ui.screens.missions.MissionsScreen
@@ -68,7 +69,8 @@ fun NavigationWrapper() {
             }
 
             composable(route = BottomNavigationDestination.Album.route) {
-                AlbumScreen()
+                val albumViewModel: AlbumViewModel = hiltViewModel()
+                AlbumScreen(viewModel = albumViewModel)
             }
         }
     }

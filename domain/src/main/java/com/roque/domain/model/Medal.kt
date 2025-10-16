@@ -9,7 +9,7 @@ data class Medal(
     val description: String,
     val icon: String,
     val category: MedalCategory = MedalCategory.PROGRESS,
-    val rarity: MedalRarity = MedalRarity.COMMON,
+    val rarity: Rarity = Rarity.COMMON,
     val backgroundColor: String = "#FFFFFF",
     val progressColor: String = "#2196F3",
     val level: Int = 1,

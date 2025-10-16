@@ -29,6 +29,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -54,7 +55,7 @@ import com.roque.epicmedalsapp.ui.composables.LoadingScreen
 
 @Composable
 fun StreaksScreen(
-    viewModel: StreaksViewModel = hiltViewModel()
+    viewModel: StreaksViewModel
 ) {
     val streakState by viewModel.streakState.collectAsState()
     val streak by viewModel.streak.collectAsState()
@@ -347,13 +348,14 @@ private fun GoalProgressItem(
         }
 
         LinearProgressIndicator(
-            progress = progress,
+            progress = { progress },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(8.dp)
                 .clip(RoundedCornerShape(4.dp)),
             color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
         )
     }
 }

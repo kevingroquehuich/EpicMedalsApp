@@ -3,6 +3,7 @@ package com.roque.epicmedalsapp.core.di
 import android.content.Context
 import com.roque.data.datastore.MedalDataStore
 import com.roque.data.datastore.StreakDataStore
+import com.roque.data.repository.AlbumRepositoryImpl
 import com.roque.data.repository.MedalRepositoryImpl
 import com.roque.data.repository.MissionsRepositoryImpl
 import com.roque.data.repository.StreakRepositoryImpl
@@ -45,4 +46,10 @@ object DataModule {
     fun provideMissionsRepositoryImpl(
         @ApplicationContext context: Context
     ): MissionsRepositoryImpl = MissionsRepositoryImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideAlbumRepositoryImpl(
+        @ApplicationContext context: Context
+    ): AlbumRepositoryImpl = AlbumRepositoryImpl(context)
 }

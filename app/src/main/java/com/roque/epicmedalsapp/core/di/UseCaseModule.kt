@@ -1,8 +1,10 @@
 package com.roque.epicmedalsapp.core.di
 
+import com.roque.domain.repository.AlbumRepository
 import com.roque.domain.repository.MedalRepository
 import com.roque.domain.repository.MissionsRepository
 import com.roque.domain.repository.StreakRepository
+import com.roque.domain.usecase.album.GetAlbumItemsUseCase
 import com.roque.domain.usecase.medal.GetMedalsFlowUseCase
 import com.roque.domain.usecase.streak.GetStreakFlowUseCase
 import com.roque.domain.usecase.streak.RecordDailyActivityUseCase
@@ -53,8 +55,14 @@ object UseCaseModule {
     ) = UpdateStreakMedalsUseCase(medalRepository, streakRepository)
 
     /** MISSIONS **/
-
     @Provides
     fun provideGetMissionsUseCase(repository: MissionsRepository) =
         GetMissionsUseCase(repository)
+
+    /** ALBUM **/
+    @Provides
+    fun provideGetAlbumItemsUseCase(repository: AlbumRepository) =
+        GetAlbumItemsUseCase(repository)
+
+
 }
