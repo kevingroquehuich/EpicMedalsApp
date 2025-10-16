@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "EpicMedalsApp"
 include(":app")
+include(":domain")
+include(":data")

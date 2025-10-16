@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">EpicMedalsApp</string>
+    <string name="app_name">EpicMedals</string>
+    <string name="txt_medals">Medallas</string>
+    <string name="txt_name_user">Keving Hanz Roque Huich</string>
+    <string name="txt_email_user">keving.roque.huich@gmail.com</string>
+    <string name="txt_max_level">MÁXIMO NIVEL!</string>
+    <string name="txt_profile">Perfil</string>
+    <string name="txt_work_in_progress_title">¡Estamos trabajando en algo increíble!</string>
+    <string name="txt_work_in_progress_detail">Próximamente te daremos más detalles. ¡No te lo pierdas!</string>
+    <string name="number_10">10</string>
+    <string name="txt_ten_day_streak">¡Racha de 10 días!</string>
+    <string name="txt_streak_description">Juega y consigue puntos cada día para construir tu racha</string>
+    <string name="txt_continue">Continuar</string>
+    <string name="txt_you_have_leveled_up">¡Has subido\nde nivel!</string>
+    <string name="txt_day">día</string>
+    <string name="txt_days">días</string>
+    <string name="txt_retry">Reintentar</string>
+    <string name="txt_progress_of_the_week">Progreso de la Semana</string>
+    <string name="txt_completed">Completado</string>
+    <string name="txt_current_streak">Racha Actual</string>
+    <string name="txt_best_streak">Mejor Racha</string>
+    <string name="txt_total_days">Días Totales</string>
+    <string name="txt_registering">Registrando...</string>
+    <string name="txt_record_activity_of_the_day">Registrar Actividad del Día</string>
+    <string name="txt_progress_towards_goals">Progreso hacia Objetivos</string>
+    <string name="txt_weekly_goal_seven_days">Objetivo Semanal (7 días)</string>
+    <string name="txt_main_objective_days">Objetivo Principal (%1$d días)</string>
+    <string name="txt_active_missions">Misiones Activas</string>
+    <string name="txt_progress">Progreso</string>
+    <string name="txt_reward">Recompensa</string>
+    <string name="txt_congratulations">🎉 ¡FELICIDADES! 🎉</string>
+    <string name="txt_you_have_reached_the_level">¡Has alcanzado el nivel %1$d!</string>
 </resources>
